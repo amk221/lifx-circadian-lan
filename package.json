@@ -1,0 +1,11 @@
+{
+  "name": "lifx-circadian-lan",
+  "version": "0.0.0",
+  "licence": "MIT",
+  "scripts": {
+    "start": "./index.js"
+  },
+  "dependencies": {
+    "node-lifx": "^0.8.0"
+  }
+}
