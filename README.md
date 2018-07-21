@@ -10,8 +10,10 @@ It's a shame LIFX bulbs don't process the schedules when the light is turned on,
 
 ### Installation
 
-`yarn install`
-`yarn start`
+```
+yarn install
+yarn start
+```
 
 
 
