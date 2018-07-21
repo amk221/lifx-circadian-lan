@@ -27,8 +27,6 @@ function configForHour(hour) {
       brightness = 50;
       break;
     case 6:
-      state = {}
-      break;
     case 7:
       kelvin = 'cool';
       brightness = 30;
