@@ -90,7 +90,7 @@ function configForNow() {
 function autoSetConfig(light) {
   const { kelvin, brightness } = configForNow();
 
-  light.color(0, 0, brightness, kelvin, 1000);
+  light.color(0, 0, brightness, kelvins[kelvin], 1000);
 }
 
 client.on('light-online', autoSetConfig);
