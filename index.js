@@ -1,7 +1,9 @@
 const LifxClient = require('node-lifx').Client;
-const client = new LifxClient();
+const client = new LifxClient;
 
 client.init();
+client.on('light-new', autoSetConfig);
+client.on('light-online', autoSetConfig);
 
 const kelvins = {
   cool: 4000,
@@ -92,5 +94,3 @@ function autoSetConfig(light) {
 
   light.color(0, 0, brightness, kelvin, 1000);
 }
-
-client.on('light-online', autoSetConfig);
