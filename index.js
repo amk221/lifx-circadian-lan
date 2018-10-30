@@ -66,8 +66,8 @@ function configForHour(hour) {
       brightness = 70;
       break;
     case 19:
-      kelvin = 'warm';
-      brightness = 50;
+      kelvin = 'incandescent';
+      brightness = 70;
       break;
     case 20:
     case 21:
