@@ -31,45 +31,42 @@ function configForHour(hour) {
     case 6:
     case 7:
       kelvin = 'cool';
-      brightness = 30;
+      brightness = 50;
       break;
     case 8:
       kelvin = 'cool';
-      brightness = 50;
+      brightness = 70;
       break;
     case 9:
       kelvin = 'cool';
-      brightness = 70;
-      break;
-    case 10:
-      kelvin = 'cool';
       brightness = 100;
       break;
+    case 10:
     case 11:
+      kelvin = 'neutral';
+      brightness = 100;
+      break;
     case 12:
     case 13:
     case 14:
-      kelvin = 'neutral';
+      kelvin = 'neutralWarm';
       brightness = 100;
       break;
     case 15:
     case 16:
-      kelvin = 'neutralWarm';
-      brightness = 100;
-      break;
     case 17:
       kelvin = 'warm';
       brightness = 100;
       break;
     case 18:
-      kelvin = 'warm';
-      brightness = 70;
+      kelvin = 'incandescent';
+      brightness = 100;
       break;
     case 19:
+    case 20:
       kelvin = 'incandescent';
       brightness = 70;
       break;
-    case 20:
     case 21:
       kelvin = 'incandescent';
       brightness = 50;
