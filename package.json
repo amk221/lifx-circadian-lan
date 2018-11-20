@@ -6,6 +6,7 @@
     "start": "node ./index.js"
   },
   "dependencies": {
-    "node-lifx": "^0.8.0"
+    "node-lifx": "0.8.0",
+    "nodemon": "^1.18.6"
   }
 }

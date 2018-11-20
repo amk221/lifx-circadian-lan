@@ -2,8 +2,8 @@ const LifxClient = require('node-lifx').Client;
 const client = new LifxClient;
 
 client.init();
-client.on('light-new', autoSetConfig);
-client.on('light-online', autoSetConfig);
+client.on('light-new', lightNew);
+client.on('light-online', lightOnline);
 
 const kelvins = {
   cool: 4000,
@@ -88,6 +88,38 @@ function configForNow() {
 
 function autoSetConfig(light) {
   const { kelvin, brightness } = configForNow();
-
   light.color(0, 0, brightness, kelvins[kelvin], 3000);
 }
+
+function logError() {
+  console.error(...arguments);
+}
+
+function logLight(message, light, info) {
+  const now = new Date;
+  const { label, color: { brightness, kelvin }} = info;
+  console.log(`${now} | ${message}: ${label} (Brightness: ${brightness}, Kelvin: ${kelvin})`);
+}
+
+function lightOnline(light) {
+  light.getState((error, info) => {
+    if (error) {
+      logError(error);
+    } else {
+      logLight('Light online', light, info);
+      autoSetConfig(light);
+    }
+  });
+}
+
+function lightNew(light) {
+  light.getState((error, info) => {
+    if (error) {
+      logError(error);
+    } else {
+      logLight('New light', light, info);
+      autoSetConfig(light);
+    }
+  });
+}
+
