@@ -5,6 +5,8 @@ client.init();
 client.on('light-new', lightNew);
 client.on('light-online', lightOnline);
 
+const fadeDuration = 5000;
+
 const kelvins = {
   cool: 4000,
   neutral: 3500,
@@ -76,7 +78,7 @@ function configForNow() {
 
 function autoSetConfig(light) {
   const { kelvin, brightness } = configForNow();
-  light.color(0, 0, brightness, kelvins[kelvin], 3000);
+  light.color(0, 0, brightness, kelvins[kelvin], fadeDuration);
 }
 
 function logError() {
