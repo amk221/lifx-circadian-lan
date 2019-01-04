@@ -8,12 +8,24 @@ client.on('light-online', lightOnline);
 const fadeDuration = 5000;
 
 const kelvins = {
+  blueIce: 9000,
+  blueWater: 8500,
+  blueOvercast: 8000,
+  blueDaylight: 7500,
+  cloudyDaylight: 7000,
+  brightDaylight: 6500,
+  noonDaylight: 6000,
+  daylight: 5000,
+  softDaylight: 5000,
+  coolDaylight: 4500,
   cool: 4000,
   neutral: 3500,
   neutralWarm: 3200,
   warm: 3000,
   incandescent: 2750,
-  ultraWarm: 2500
+  ultraWarm: 2500,
+  sunset: 2000,
+  candleLight: 1500
 };
 
 function configForHour(hour) {
