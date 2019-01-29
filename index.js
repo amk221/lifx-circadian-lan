@@ -1,5 +1,6 @@
 const LifxClient = require('node-lifx').Client;
 
+const interval = 10000;
 const duration = 5000;
 
 const kelvins = {
@@ -67,10 +68,12 @@ function kelvinForNow() {
 }
 
 function autoSetConfig(light) {
-  const kelvin = kelvinForNow();
+  const name = kelvinForNow();
 
   light.getState((error, { color: current }) => {
-    if (error) {
+    const kelvin = kelvins[name];
+
+    if (error || current.kelvin === kelvin) {
       return;
     }
 
@@ -78,7 +81,7 @@ function autoSetConfig(light) {
       current.hue,
       current.saturation,
       current.brightness,
-      kelvins[kelvin],
+      kelvin,
       duration
     );
   });
@@ -93,7 +96,7 @@ function main() {
 
   setInterval(() => {
     client.lights().forEach(autoSetConfig);
-  }, duration * 2);
+  }, interval);
 }
 
 main();
