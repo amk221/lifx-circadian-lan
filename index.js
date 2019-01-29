@@ -1,11 +1,6 @@
 const LifxClient = require('node-lifx').Client;
-const client = new LifxClient;
 
-client.init();
-client.on('light-new', lightNew);
-client.on('light-online', lightOnline);
-
-const fadeDuration = 5000;
+const duration = 5000;
 
 const kelvins = {
   blueIce: 9000,
@@ -15,7 +10,7 @@ const kelvins = {
   cloudyDaylight: 7000,
   brightDaylight: 6500,
   noonDaylight: 6000,
-  daylight: 5000,
+  daylight: 5500,
   softDaylight: 5000,
   coolDaylight: 4500,
   cool: 4000,
@@ -28,10 +23,7 @@ const kelvins = {
   candleLight: 1500
 };
 
-function configForHour(hour) {
-  let kelvin;
-  let brightness;
-
+function kelvinForHour(hour) {
   switch (hour) {
     case 0:
     case 1:
@@ -39,95 +31,69 @@ function configForHour(hour) {
     case 3:
     case 4:
     case 5:
-      kelvin = 'ultraWarm';
-      brightness = 80;
-      break;
+      return 'ultraWarm';
     case 6:
-      kelvin = 'incandescent';
-      brightness = 80;
-      break;
+      return 'incandescent';
     case 7:
-      kelvin = 'warm';
-      brightness = 100;
-      break;
+      return 'warm';
     case 8:
     case 9:
-      kelvin = 'neutralWarm';
-      brightness = 100;
-      break;
+      return 'neutralWarm';
     case 10:
     case 11:
     case 12:
-      kelvin = 'neutral';
-      brightness = 100;
-      break;
+      return 'neutral';
     case 13:
     case 14:
-      kelvin = 'neutralWarm';
-      brightness = 100;
-      break;
+      return 'neutralWarm';
     case 15:
     case 16:
     case 17:
-      kelvin = 'warm';
-      brightness = 100;
-      break;
+      return 'warm';
     case 18:
     case 19:
     case 20:
     case 21:
-      kelvin = 'incandescent';
-      brightness = 100;
-      break;
+      return 'incandescent';
     case 22:
     case 23:
-      kelvin = 'ultraWarm';
-      brightness = 80;
-      break;
+      return 'ultraWarm';
   }
-
-  return { kelvin, brightness };
 }
 
-function configForNow() {
+function kelvinForNow() {
   const hour = (new Date).getHours();
-  return configForHour(hour);
+  return kelvinForHour(hour);
 }
 
 function autoSetConfig(light) {
-  const { kelvin, brightness } = configForNow();
-  light.color(0, 0, brightness, kelvins[kelvin], fadeDuration);
-}
+  const kelvin = kelvinForNow();
 
-function logError() {
-  console.error(...arguments);
-}
-
-function logLight(message, light, info) {
-  const now = new Date;
-  const { label, color: { brightness, kelvin }} = info;
-  console.log(`${now} | ${message}: ${label} (Brightness: ${brightness}, Kelvin: ${kelvin})`);
-}
-
-function lightOnline(light) {
-  light.getState((error, info) => {
+  light.getState((error, { color: current }) => {
     if (error) {
-      logError(error);
-    } else {
-      logLight('Light online', light, info);
-      autoSetConfig(light);
+      return;
     }
+
+    light.color(
+      current.hue,
+      current.saturation,
+      current.brightness,
+      kelvins[kelvin],
+      duration
+    );
   });
 }
 
-function lightNew(light) {
-  light.getState((error, info) => {
-    if (error) {
-      logError(error);
-    } else {
-      logLight('New light', light, info);
-      autoSetConfig(light);
-    }
-  });
+function main() {
+  const client = new LifxClient;
+
+  client.init();
+  client.on('light-new', autoSetConfig);
+  client.on('light-online', autoSetConfig);
+
+  setInterval(() => {
+    client.lights().forEach(autoSetConfig);
+  }, duration * 2);
 }
 
+main();
