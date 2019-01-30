@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "licence": "MIT",
   "scripts": {
-    "start": "node ./index.js"
+    "start": "node index.js 1> log.out 2> err.out"
   },
   "dependencies": {
     "node-lifx": "0.8.0"

@@ -30,11 +30,11 @@ function kelvinForHour(hour) {
     case 1:
     case 2:
     case 3:
+      return 'ultraWarm';
     case 4:
     case 5:
-      return 'ultraWarm';
-    case 6:
       return 'incandescent';
+    case 6:
     case 7:
       return 'warm';
     case 8:
@@ -46,12 +46,12 @@ function kelvinForHour(hour) {
       return 'neutral';
     case 13:
     case 14:
-      return 'neutralWarm';
     case 15:
+      return 'neutralWarm';
     case 16:
     case 17:
-      return 'warm';
     case 18:
+      return 'warm';
     case 19:
     case 20:
     case 21:
