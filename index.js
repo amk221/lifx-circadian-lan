@@ -1,7 +1,7 @@
 const LifxClient = require('node-lifx').Client;
 
 const oneMinute = 60000;
-const thirtySeconds = 5000;
+const thirtySeconds = 30000;
 
 const kelvins = {
   blueIce: 9000,
