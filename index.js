@@ -71,9 +71,14 @@ function autoSetConfig(light) {
   const name = kelvinForNow();
 
   light.getState((error, { color: current }) => {
+    if (error) {
+      console.error(error);
+      return;
+    }
+
     const kelvin = kelvins[name];
 
-    if (error || current.kelvin === kelvin) {
+    if (current.kelvin === kelvin) {
       return;
     }
 
