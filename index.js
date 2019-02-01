@@ -105,7 +105,7 @@ function main() {
   client.on('light-online', autoSetConfig);
 
   setInterval(() => {
-    client.lights().forEach(autoSetConfig);
+    client.lights('on').forEach(autoSetConfig);
   }, oneMinute);
 }
 
