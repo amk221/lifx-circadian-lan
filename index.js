@@ -94,13 +94,14 @@ function autoSetConfig(light) {
 }
 
 function main() {
-  const client = new LifxClient({
+  const client = new LifxClient;
+
+  client.init({
     debug: true,
     messageHandlerTimeout: 10000,
     resendMaxTimes: 0
   });
-
-  client.init();
+  
   client.on('light-new', autoSetConfig);
   client.on('light-online', autoSetConfig);
 
