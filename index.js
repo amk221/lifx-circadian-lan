@@ -70,12 +70,13 @@ function kelvinForNow() {
 function autoSetConfig(light) {
   const name = kelvinForNow();
 
-  light.getState((error, { color: current }) => {
+  light.getState((error, state) => {
     if (error) {
       console.error(error);
       return;
     }
 
+    const { color: current } = state;
     const kelvin = kelvins[name];
 
     if (current.kelvin === kelvin) {
@@ -93,7 +94,11 @@ function autoSetConfig(light) {
 }
 
 function main() {
-  const client = new LifxClient;
+  const client = new LifxClient({
+    debug: true,
+    messageHandlerTimeout: 10000,
+    resendMaxTimes: 0
+  });
 
   client.init();
   client.on('light-new', autoSetConfig);
