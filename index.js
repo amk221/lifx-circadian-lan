@@ -97,11 +97,11 @@ function main() {
   const client = new LifxClient;
 
   client.init({
-    debug: true,
+    debug: false,
     messageHandlerTimeout: 10000,
     resendMaxTimes: 0
   });
-  
+
   client.on('light-new', autoSetConfig);
   client.on('light-online', autoSetConfig);
 
