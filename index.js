@@ -18,7 +18,7 @@ const kelvins = {
   neutral: 3500,
   neutralWarm: 3200,
   warm: 3000,
-  incandescent: 2750,
+  incandescent: 2700,
   ultraWarm: 2500,
   sunset: 2000,
   candleLight: 1500
@@ -39,15 +39,13 @@ function kelvinForHour(hour) {
       return 'warm';
     case 8:
     case 9:
-      return 'neutralWarm';
     case 10:
     case 11:
     case 12:
-      return 'neutral';
     case 13:
     case 14:
     case 15:
-      return 'neutralWarm';
+      return 'neutral';
     case 16:
     case 17:
     case 18:
