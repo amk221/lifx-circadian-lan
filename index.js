@@ -1,7 +1,7 @@
-const LifxClient = require('node-lifx').Client;
+const LifxClient = require('lifx-lan-client').Client;
+const cron = require('node-cron');
 
-const oneMinute = 60000;
-const thirtySeconds = 30000;
+const twoSeconds = 2000;
 
 const kelvins = {
   blueIce: 9000,
@@ -39,6 +39,7 @@ function kelvinForHour(hour) {
       return 'warm';
     case 8:
     case 9:
+      return 'neutralWarm';
     case 10:
     case 11:
     case 12:
@@ -48,9 +49,10 @@ function kelvinForHour(hour) {
       return 'neutral';
     case 16:
     case 17:
+      return 'neutralWarm';
     case 18:
-      return 'warm';
     case 19:
+      return 'warm';
     case 20:
     case 21:
       return 'incandescent';
@@ -65,9 +67,7 @@ function kelvinForNow() {
   return kelvinForHour(hour);
 }
 
-function autoSetConfig(light) {
-  const name = kelvinForNow();
-
+function autoSetKelvin(light) {
   light.getState((error, state) => {
     if (error) {
       console.error(error);
@@ -75,6 +75,7 @@ function autoSetConfig(light) {
     }
 
     const { color: current } = state;
+    const name = kelvinForNow();
     const kelvin = kelvins[name];
 
     if (current.kelvin === kelvin) {
@@ -86,7 +87,7 @@ function autoSetConfig(light) {
       current.saturation,
       current.brightness,
       kelvin,
-      thirtySeconds
+      twoSeconds
     );
   });
 }
@@ -94,18 +95,18 @@ function autoSetConfig(light) {
 function main() {
   const client = new LifxClient;
 
-  client.init({
-    debug: false,
-    messageHandlerTimeout: 10000,
-    resendMaxTimes: 0
+  client.init();
+
+  // Light switched on at the wall...
+  client.on('light-new', autoSetKelvin);
+
+  // Light switched on using the app...
+  client.on('light-online', autoSetKelvin);
+
+  // Every minute...
+  cron.schedule('* * * * *', () => {
+    client.lights('on').forEach(autoSetKelvin);
   });
-
-  client.on('light-new', autoSetConfig);
-  client.on('light-online', autoSetConfig);
-
-  setInterval(() => {
-    client.lights('on').forEach(autoSetConfig);
-  }, oneMinute);
 }
 
 main();
