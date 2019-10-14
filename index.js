@@ -1,7 +1,7 @@
 const LifxClient = require('lifx-lan-client').Client;
 const cron = require('node-cron');
 
-const twoSeconds = 2000;
+const thirtySeconds = 30000;
 
 const kelvins = {
   blueIce: 9000,
@@ -87,7 +87,7 @@ function autoSetKelvin(light) {
       current.saturation,
       current.brightness,
       kelvin,
-      twoSeconds
+      thirtySeconds
     );
   });
 }
